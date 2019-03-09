@@ -1,27 +1,15 @@
 package hr.foi.raspberry.listener.model;
 
-import org.springframework.data.annotation.Id;
-
 import java.time.LocalDateTime;
 
 public class BeaconRecord {
 
-    @Id
-    private String id;
     private Integer txPower;
     private Double rssi;
     private Double distance;
     private LocalDateTime dateTime;
 
     public BeaconRecord() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Integer getTxPower() {
