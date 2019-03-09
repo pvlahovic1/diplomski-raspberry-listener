@@ -68,4 +68,13 @@ public class Beacon {
     public void setRecords(List<BeaconRecord> records) {
         this.records = records;
     }
+
+    @Override
+    public String toString() {
+        return "Beacon{" +
+                "uuid='" + uuid + '\'' +
+                ", major=" + major +
+                ", minor=" + minor +
+                '}';
+    }
 }

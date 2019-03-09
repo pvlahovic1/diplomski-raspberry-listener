@@ -3,15 +3,13 @@ package hr.foi.raspberry.listener.controller;
 import hr.foi.raspberry.listener.exceptions.BadRssiException;
 import hr.foi.raspberry.listener.model.Beacon;
 import hr.foi.raspberry.listener.service.BeaconService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController("/beacons")
+@RestController
+@RequestMapping("/beacons")
 public class BeaconController {
 
     private final BeaconService beaconService;
