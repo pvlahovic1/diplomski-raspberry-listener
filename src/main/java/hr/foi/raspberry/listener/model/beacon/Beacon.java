@@ -1,20 +1,23 @@
 package hr.foi.raspberry.listener.model.beacon;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Document
+@CompoundIndexes({
+        @CompoundIndex(name = "uuid_major_minor", def = "{'uuid' : 1, 'major': 1, 'minor': 1}", unique = true)
+})
 public class Beacon {
 
     @Id
     private String id;
-    @Indexed(unique = true)
     private String uuid;
-    @Indexed(unique = true)
     private Integer major;
-    @Indexed(unique = true)
     private Integer minor;
     private List<BeaconRecord> records;
 
