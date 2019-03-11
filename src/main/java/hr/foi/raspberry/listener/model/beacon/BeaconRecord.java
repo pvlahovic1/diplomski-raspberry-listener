@@ -1,4 +1,4 @@
-package hr.foi.raspberry.listener.model;
+package hr.foi.raspberry.listener.model.beacon;
 
 import java.time.LocalDateTime;
 

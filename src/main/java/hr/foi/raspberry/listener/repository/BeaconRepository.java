@@ -1,6 +1,6 @@
 package hr.foi.raspberry.listener.repository;
 
-import hr.foi.raspberry.listener.model.Beacon;
+import hr.foi.raspberry.listener.model.beacon.Beacon;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

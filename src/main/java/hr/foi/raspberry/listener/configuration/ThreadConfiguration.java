@@ -20,6 +20,8 @@ public class ThreadConfiguration {
         BeaconDataPurgeThread thread =  new BeaconDataPurgeThread(beaconRepository);
         thread.setPurgeThreadInterval(purgeThreadInterval);
         thread.setPurgeDataInterval(purgeDataInterval);
+        thread.start();
+
         return thread;
     }
 

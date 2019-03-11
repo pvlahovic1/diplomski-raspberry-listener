@@ -1,7 +1,7 @@
 package hr.foi.raspberry.listener.service;
 
 import hr.foi.raspberry.listener.exceptions.BadRssiException;
-import hr.foi.raspberry.listener.model.Beacon;
+import hr.foi.raspberry.listener.model.beacon.Beacon;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package hr.foi.raspberry.listener.threads;
 
-import hr.foi.raspberry.listener.model.Beacon;
+import hr.foi.raspberry.listener.model.beacon.Beacon;
 import hr.foi.raspberry.listener.repository.BeaconRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

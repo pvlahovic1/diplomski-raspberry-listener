@@ -1,8 +1,8 @@
 package hr.foi.raspberry.listener.service;
 
 import hr.foi.raspberry.listener.exceptions.BadRssiException;
-import hr.foi.raspberry.listener.model.Beacon;
-import hr.foi.raspberry.listener.model.BeaconRecord;
+import hr.foi.raspberry.listener.model.beacon.Beacon;
+import hr.foi.raspberry.listener.model.beacon.BeaconRecord;
 import hr.foi.raspberry.listener.repository.BeaconRepository;
 import org.springframework.stereotype.Service;
 
