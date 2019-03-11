@@ -1,7 +1,9 @@
 package hr.foi.raspberry.listener.threads;
 
 import hr.foi.raspberry.listener.model.beacon.Beacon;
-import hr.foi.raspberry.listener.repository.BeaconRepository;
+import hr.foi.raspberry.listener.model.device.Device;
+import hr.foi.raspberry.listener.service.BeaconService;
+import hr.foi.raspberry.listener.service.DeviceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,14 +15,15 @@ import java.util.stream.Collectors;
 public class BeaconDataPurgeThread extends Thread {
 
     private static final Logger logger = LoggerFactory.getLogger(BeaconDataPurgeThread.class);
-    private final BeaconRepository beaconRepository;
-    private long purgeThreadInterval;
-    private long purgeDataInterval;
+    private static final Integer defaultPurgeThreadInterval = 60000;
+    private final BeaconService beaconService;
+    private final DeviceService deviceService;
     private boolean running;
     private boolean paused;
 
-    public BeaconDataPurgeThread(BeaconRepository beaconRepository) {
-        this.beaconRepository = beaconRepository;
+    public BeaconDataPurgeThread(DeviceService deviceService, BeaconService beaconService) {
+        this.deviceService = deviceService;
+        this.beaconService = beaconService;
         this.running = false;
         this.paused = false;
     }
@@ -31,8 +34,9 @@ public class BeaconDataPurgeThread extends Thread {
         while (this.running) {
             while(!this.paused) {
                 try {
+                    Integer purgeThreadInterval = getPurgeThreadInterval();
                     logger.info("Pocinje izvrsavanje dretve za brisanje beacon podataka");
-                    this.purgeData();
+                    this.purgeData(purgeThreadInterval);
                     Thread.sleep(purgeThreadInterval);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -41,32 +45,42 @@ public class BeaconDataPurgeThread extends Thread {
         }
     }
 
-    private void purgeData() {
-        var beacons = this.beaconRepository.findAll();
+    private void purgeData(Integer purgeThreadInterval) {
+        var beacons = this.beaconService.getAllBeacons();
         var beaconsForDelete = new ArrayList<Beacon>();
         LocalDateTime now = LocalDateTime.now();
 
-        logger.info("Brisanje svih beacon podataka koji su stariji od: {}", now.minusNanos(purgeDataInterval * 1000000));
+        logger.info("Brisanje svih beacon podataka koji su stariji od: {}", now.minusNanos(purgeThreadInterval * 1000000));
         for (Beacon b : beacons) {
             if (b.getRecords().isEmpty()) {
                 beaconsForDelete.add(b);
             } else {
                 var recordsForDelete = b.getRecords().stream()
-                        .filter(e -> Duration.between(e.getDateTime(), now).toMillis() > purgeDataInterval)
+                        .filter(e -> Duration.between(e.getDateTime(), now).toMillis() > purgeThreadInterval)
                         .collect(Collectors.toList());
 
                 if (!recordsForDelete.isEmpty()) {
                     logger.info("Kod beacona: {} pronadeno {} podataka za brisanje", b, recordsForDelete.size());
                 }
                 b.getRecords().removeAll(recordsForDelete);
-                beaconRepository.save(b);
+                beaconService.saveBeacon(b);
             }
         }
 
         if (!beaconsForDelete.isEmpty()) {
             logger.info("Pronadeno {} beacona za brisanje jer nemaju podataka", beaconsForDelete.size());
-            beaconRepository.deleteAll(beaconsForDelete);
+            beaconService.deleteBeacons(beaconsForDelete);
         }
+    }
+
+    private Integer getPurgeThreadInterval() {
+        Device device = deviceService.findDeviceData();
+        Integer purgeThreadInterval = defaultPurgeThreadInterval;
+        if (device != null) {
+            purgeThreadInterval = device.getBeaconDataPurgeInterval();
+        }
+
+        return purgeThreadInterval;
     }
 
     public void pauseThread() {
@@ -81,19 +95,4 @@ public class BeaconDataPurgeThread extends Thread {
         return this.running;
     }
 
-    public long getPurgeThreadInterval() {
-        return purgeThreadInterval;
-    }
-
-    public void setPurgeThreadInterval(long purgeThreadInterval) {
-        this.purgeThreadInterval = purgeThreadInterval;
-    }
-
-    public long getPurgeDataInterval() {
-        return purgeDataInterval;
-    }
-
-    public void setPurgeDataInterval(long purgeDataInterval) {
-        this.purgeDataInterval = purgeDataInterval;
-    }
 }

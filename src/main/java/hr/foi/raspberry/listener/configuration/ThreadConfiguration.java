@@ -1,25 +1,26 @@
 package hr.foi.raspberry.listener.configuration;
 
-import hr.foi.raspberry.listener.repository.BeaconRepository;
+import hr.foi.raspberry.listener.service.BeaconService;
+import hr.foi.raspberry.listener.service.DeviceService;
 import hr.foi.raspberry.listener.threads.BeaconDataPurgeThread;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ThreadConfiguration {
 
-    @Value("${purge.thread.interval}")
-    private long purgeThreadInterval;
+    private final DeviceService deviceService;
+    private final BeaconService beaconService;
 
-    @Value("${purge.data.interval}")
-    private long purgeDataInterval;
+    public ThreadConfiguration(DeviceService deviceService, BeaconService beaconService) {
+        this.deviceService = deviceService;
+        this.beaconService = beaconService;
+    }
+
 
     @Bean
-    public BeaconDataPurgeThread createThread(BeaconRepository beaconRepository) {
-        BeaconDataPurgeThread thread =  new BeaconDataPurgeThread(beaconRepository);
-        thread.setPurgeThreadInterval(purgeThreadInterval);
-        thread.setPurgeDataInterval(purgeDataInterval);
+    public BeaconDataPurgeThread createThread() {
+        BeaconDataPurgeThread thread =  new BeaconDataPurgeThread(deviceService, beaconService);
         thread.start();
 
         return thread;

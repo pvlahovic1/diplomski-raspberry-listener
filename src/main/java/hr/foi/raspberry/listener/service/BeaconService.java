@@ -11,4 +11,8 @@ public interface BeaconService {
 
     List<Beacon> getAllBeacons();
 
+    void saveBeacon(Beacon beacon);
+
+    void deleteBeacons(List<Beacon> beacons);
+
 }

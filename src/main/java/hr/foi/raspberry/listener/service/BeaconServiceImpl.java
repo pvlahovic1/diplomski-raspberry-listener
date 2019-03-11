@@ -38,6 +38,16 @@ public class BeaconServiceImpl implements BeaconService {
         return beaconRepository.findAll();
     }
 
+    @Override
+    public void saveBeacon(Beacon beacon) {
+        beaconRepository.save(beacon);
+    }
+
+    @Override
+    public void deleteBeacons(List<Beacon> beacons) {
+        beaconRepository.deleteAll(beacons);
+    }
+
     private BeaconRecord populateBeaconRecordData(BeaconRecord beaconRecord) throws BadRssiException {
         beaconRecord.setDistance(calculateDistance(beaconRecord.getTxPower(), beaconRecord.getRssi()));
         beaconRecord.setDateTime(LocalDateTime.now());

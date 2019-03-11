@@ -30,12 +30,7 @@ public class PurgeThreadController {
 
     @PostMapping("/config")
     public void setThreadConfiguration(@RequestBody PurgeThreadSettings purgeThreadSettings) {
-        if (purgeThreadSettings.getDataInterval() != null) {
-            beaconDataPurgeThread.setPurgeDataInterval(purgeThreadSettings.getDataInterval());
-        }
-        if (purgeThreadSettings.getThreadInterval() != null) {
-            beaconDataPurgeThread.setPurgeThreadInterval(purgeThreadSettings.getThreadInterval());
-        }
+        //TODO: set config parameters;
     }
 
 }
