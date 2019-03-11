@@ -23,9 +23,9 @@ public class DeviceBuilderDirector {
     public Device buildDevice() throws IOException {
         List<String> parameters = new ArrayList<>();
 
-        Path postavkePath = Paths.get(configurationPath);
+        Path path = Paths.get(configurationPath);
 
-        try (Stream<String> stream = Files.lines(postavkePath)) {
+        try (Stream<String> stream = Files.lines(path)) {
             stream.forEach(parameters::add);
         }
 
@@ -36,12 +36,18 @@ public class DeviceBuilderDirector {
             if (parameter.contains("beaconDataPurgeInterval")) {
                 deviceBuilder.setBeaconDataPurgeInterval(Integer.valueOf(getDataFromParameter(parameter)));
             }
+            if (parameter.contains("mqttTopicUrl")) {
+                deviceBuilder.setMqttTopicUrl(getDataFromParameter(parameter));
+            }
+            if (parameter.contains("mqttTopicTitle")) {
+                deviceBuilder.setMqttTopicTitle(getDataFromParameter(parameter));
+            }
         }
 
         return deviceBuilder.build();
     }
 
     private String getDataFromParameter(String parameter) {
-        return parameter.substring(parameter.indexOf(":") + 1);
+        return parameter.substring(parameter.indexOf("=") + 1);
     }
 }

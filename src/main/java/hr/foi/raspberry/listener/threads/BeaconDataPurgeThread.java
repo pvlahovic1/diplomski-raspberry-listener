@@ -95,4 +95,9 @@ public class BeaconDataPurgeThread extends Thread {
         return this.running;
     }
 
+    public void stopThread() {
+        this.paused = true;
+        this.running = false;
+    }
+
 }

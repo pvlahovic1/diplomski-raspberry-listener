@@ -8,6 +8,8 @@ public class Device {
     private String id;
     private String name;
     private Integer beaconDataPurgeInterval;
+    private String mqttTopicUrl;
+    private String mqttTopicTitle;
 
     public Device() {
     }
@@ -36,12 +38,30 @@ public class Device {
         this.beaconDataPurgeInterval = beaconDataPurgeInterval;
     }
 
+    public String getMqttTopicUrl() {
+        return mqttTopicUrl;
+    }
+
+    public void setMqttTopicUrl(String mqttTopicUrl) {
+        this.mqttTopicUrl = mqttTopicUrl;
+    }
+
+    public String getMqttTopicTitle() {
+        return mqttTopicTitle;
+    }
+
+    public void setMqttTopicTitle(String mqttTopicTitle) {
+        this.mqttTopicTitle = mqttTopicTitle;
+    }
+
     @Override
     public String toString() {
         return "Device{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", beaconDataPurgeInterval=" + beaconDataPurgeInterval +
+                ", mqttTopicUrl='" + mqttTopicUrl + '\'' +
+                ", mqttTopicTitle='" + mqttTopicTitle + '\'' +
                 '}';
     }
 }

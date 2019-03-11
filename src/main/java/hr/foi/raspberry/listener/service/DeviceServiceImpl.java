@@ -48,6 +48,8 @@ public class DeviceServiceImpl implements DeviceService {
 
                 persistDevice.setName(device.getName());
                 persistDevice.setBeaconDataPurgeInterval(device.getBeaconDataPurgeInterval());
+                persistDevice.setMqttTopicUrl(device.getMqttTopicUrl());
+                persistDevice.setMqttTopicTitle(device.getMqttTopicTitle());
 
                 deviceRepository.save(persistDevice);
             } else {
@@ -58,12 +60,21 @@ public class DeviceServiceImpl implements DeviceService {
         }
     }
 
+    @Override
+    public void deleteData() {
+        deviceRepository.deleteAll();
+    }
+
     private boolean isDeviceValid(Device device) {
         boolean valid = true;
 
         if (device.getName() == null || device.getName().isEmpty()) {
             valid = false;
         } else if (device.getBeaconDataPurgeInterval() == null || device.getBeaconDataPurgeInterval() < 1) {
+            valid = false;
+        } else if (device.getMqttTopicUrl() == null || device.getMqttTopicUrl().isEmpty()) {
+            valid = false;
+        } else if (device.getMqttTopicTitle() == null || device.getMqttTopicTitle().isEmpty()) {
             valid = false;
         }
 

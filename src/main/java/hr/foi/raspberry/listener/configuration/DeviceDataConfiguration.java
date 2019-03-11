@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
+@Primary
 @Configuration
 public class DeviceDataConfiguration {
 
@@ -28,18 +30,20 @@ public class DeviceDataConfiguration {
     }
 
     @PostConstruct
-    public void deviceDataCheck() {
+    public void deviceDataCheck() throws BadDeviceDataException {
         logger.info("Checking device data.");
         Device device = deviceService.findDeviceData();
         if (device != null) {
-            logger.info("Device {} is already set! Skipping setup...", device.getName());
+            String forceConfiguration = System.getProperty("forceConfiguration");
+            if (forceConfiguration != null && forceConfiguration.equals("true")) {
+                logger.info("Device is already set but --forceConfiguration is true");
+                setupData(deviceService);
+            } else {
+                logger.info("Device is already set {}! Skipping setup...", device);
+            }
         } else {
             logger.info("This device is not set.");
-            try {
-                setupData(deviceService);
-            } catch (BadDeviceDataException e) {
-                e.printStackTrace();
-            }
+            setupData(deviceService);
         }
     }
 

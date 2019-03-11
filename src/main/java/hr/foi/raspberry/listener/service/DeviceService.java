@@ -11,4 +11,6 @@ public interface DeviceService {
 
     void updateDevice(Device device) throws BadDeviceDataException;
 
+    void deleteData();
+
 }

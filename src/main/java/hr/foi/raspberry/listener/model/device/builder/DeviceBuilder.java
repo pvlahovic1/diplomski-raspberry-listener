@@ -8,6 +8,10 @@ public interface DeviceBuilder {
 
     DeviceBuilder setBeaconDataPurgeInterval(Integer beaconDataPurgeInterval);
 
+    DeviceBuilder setMqttTopicTitle(String mqttTopicTitle);
+
+    DeviceBuilder setMqttTopicUrl(String mqttTopicUrl);
+
     Device build();
 
 }
