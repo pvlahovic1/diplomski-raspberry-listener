@@ -1,23 +1,17 @@
 package hr.foi.raspberry.listener.controller.data;
 
+import javax.validation.constraints.Min;
+
 public class PurgeThreadSettings {
 
-    private Long threadInterval;
-    private Long dataInterval;
+    @Min(1)
+    private Integer purgeThreadInterval;
 
-    public Long getThreadInterval() {
-        return threadInterval;
+    public Integer getPurgeThreadInterval() {
+        return purgeThreadInterval;
     }
 
-    public void setThreadInterval(Long threadInterval) {
-        this.threadInterval = threadInterval;
-    }
-
-    public Long getDataInterval() {
-        return dataInterval;
-    }
-
-    public void setDataInterval(Long dataInterval) {
-        this.dataInterval = dataInterval;
+    public void setPurgeThreadInterval(Integer purgeThreadInterval) {
+        this.purgeThreadInterval = purgeThreadInterval;
     }
 }
