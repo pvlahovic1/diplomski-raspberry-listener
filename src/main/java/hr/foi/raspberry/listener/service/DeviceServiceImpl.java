@@ -65,19 +65,19 @@ public class DeviceServiceImpl implements DeviceService {
         deviceRepository.deleteAll();
     }
 
-    private boolean isDeviceValid(Device device) {
-        boolean valid = true;
-
+    private boolean isDeviceValid(Device device) throws BadDeviceDataException {
         if (device.getName() == null || device.getName().isEmpty()) {
-            valid = false;
+            throw new BadDeviceDataException("Device name cannot be empty!");
         } else if (device.getBeaconDataPurgeInterval() == null || device.getBeaconDataPurgeInterval() < 1) {
-            valid = false;
+            throw new BadDeviceDataException("Beacon data purge interval must be present and greater than 1!");
         } else if (device.getMqttTopicUrl() == null || device.getMqttTopicUrl().isEmpty()) {
-            valid = false;
+            throw new BadDeviceDataException("Mqtt topic url cannot be empty!");
         } else if (device.getMqttTopicTitle() == null || device.getMqttTopicTitle().isEmpty()) {
-            valid = false;
+            throw new BadDeviceDataException("Mqtt topic title cannot be empty!");
+        } else if (device.getBeaconDataSendInterval() == null || device.getBeaconDataSendInterval() >= device.getBeaconDataPurgeInterval()) {
+            throw new BadDeviceDataException("Beacon data send interval must be present and lower than Beacon data purge interval!");
         }
 
-        return valid;
+        return true;
     }
 }

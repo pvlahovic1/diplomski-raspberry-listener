@@ -35,6 +35,12 @@ public class DeviceBuilderImpl implements DeviceBuilder {
     }
 
     @Override
+    public DeviceBuilder setBeaconDataSendInterval(Integer beaconDataSendInterval) {
+        this.device.setBeaconDataSendInterval(beaconDataSendInterval);
+        return this;
+    }
+
+    @Override
     public Device build() {
         return this.device;
     }

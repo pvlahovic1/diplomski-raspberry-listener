@@ -8,6 +8,7 @@ public class Device {
     private String id;
     private String name;
     private Integer beaconDataPurgeInterval;
+    private Integer beaconDataSendInterval;
     private String mqttTopicUrl;
     private String mqttTopicTitle;
 
@@ -52,6 +53,14 @@ public class Device {
 
     public void setMqttTopicTitle(String mqttTopicTitle) {
         this.mqttTopicTitle = mqttTopicTitle;
+    }
+
+    public Integer getBeaconDataSendInterval() {
+        return beaconDataSendInterval;
+    }
+
+    public void setBeaconDataSendInterval(Integer beaconDataSendInterval) {
+        this.beaconDataSendInterval = beaconDataSendInterval;
     }
 
     @Override

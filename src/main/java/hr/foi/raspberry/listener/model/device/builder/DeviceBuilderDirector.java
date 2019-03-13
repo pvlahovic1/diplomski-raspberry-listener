@@ -36,6 +36,9 @@ public class DeviceBuilderDirector {
             if (parameter.contains("beaconDataPurgeInterval")) {
                 deviceBuilder.setBeaconDataPurgeInterval(Integer.valueOf(getDataFromParameter(parameter)));
             }
+            if (parameter.contains("beaconDataSendInterval")) {
+                deviceBuilder.setBeaconDataSendInterval(Integer.valueOf(getDataFromParameter(parameter)));
+            }
             if (parameter.contains("mqttTopicUrl")) {
                 deviceBuilder.setMqttTopicUrl(getDataFromParameter(parameter));
             }

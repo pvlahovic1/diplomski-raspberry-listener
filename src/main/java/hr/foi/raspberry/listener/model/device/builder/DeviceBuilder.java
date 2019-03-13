@@ -12,6 +12,8 @@ public interface DeviceBuilder {
 
     DeviceBuilder setMqttTopicUrl(String mqttTopicUrl);
 
+    DeviceBuilder setBeaconDataSendInterval(Integer beaconDataSendInterval);
+
     Device build();
 
 }

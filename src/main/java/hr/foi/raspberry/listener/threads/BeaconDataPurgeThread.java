@@ -4,6 +4,7 @@ import hr.foi.raspberry.listener.model.beacon.Beacon;
 import hr.foi.raspberry.listener.model.device.Device;
 import hr.foi.raspberry.listener.service.BeaconService;
 import hr.foi.raspberry.listener.service.DeviceService;
+import hr.foi.raspberry.listener.threads.observer.DataSendObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,37 +13,55 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class BeaconDataPurgeThread extends Thread {
+public class BeaconDataPurgeThread extends Thread implements DataSendObserver {
 
     private static final Logger logger = LoggerFactory.getLogger(BeaconDataPurgeThread.class);
-    private static final Integer defaultPurgeThreadInterval = 60000;
+    private static final Integer DEFAULT_PURGE_THREAD_INTERVAL = 60000;
+    private static final Integer WAIT_FOR_DATA_SENDING = 500;
     private final BeaconService beaconService;
     private final DeviceService deviceService;
     private boolean running;
     private boolean paused;
+    private boolean isCurrentDataSendToServer;
 
     public BeaconDataPurgeThread(DeviceService deviceService, BeaconService beaconService) {
         this.deviceService = deviceService;
         this.beaconService = beaconService;
         this.running = false;
         this.paused = false;
+        this.isCurrentDataSendToServer = false;
     }
 
     @Override
     public void run() {
         this.running = true;
+        //Make purge after application starts!
+        try {
+            makePurge();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while (this.running) {
             while(!this.paused) {
                 try {
-                    Integer purgeThreadInterval = getPurgeThreadInterval();
-                    logger.info("Pocinje izvrsavanje dretve za brisanje beacon podataka");
-                    this.purgeData(purgeThreadInterval);
-                    Thread.sleep(purgeThreadInterval);
+                    if (this.isCurrentDataSendToServer) {
+                        makePurge();
+                    } else {
+                        Thread.sleep(WAIT_FOR_DATA_SENDING);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private void makePurge() throws InterruptedException {
+        Integer purgeThreadInterval = getPurgeThreadInterval();
+        logger.info("Pocinje izvrsavanje dretve za brisanje beacon podataka");
+        this.purgeData(purgeThreadInterval);
+        this.isCurrentDataSendToServer = false;
+        Thread.sleep(purgeThreadInterval);
     }
 
     private void purgeData(Integer purgeThreadInterval) {
@@ -75,7 +94,7 @@ public class BeaconDataPurgeThread extends Thread {
 
     private Integer getPurgeThreadInterval() {
         Device device = deviceService.findDeviceData();
-        Integer purgeThreadInterval = defaultPurgeThreadInterval;
+        Integer purgeThreadInterval = DEFAULT_PURGE_THREAD_INTERVAL;
         if (device != null) {
             purgeThreadInterval = device.getBeaconDataPurgeInterval();
         }
@@ -100,4 +119,9 @@ public class BeaconDataPurgeThread extends Thread {
         this.running = false;
     }
 
+    @Override
+    public void update(String data) {
+        logger.info("{} Beacon data will be purged!", data);
+        this.isCurrentDataSendToServer = true;
+    }
 }
