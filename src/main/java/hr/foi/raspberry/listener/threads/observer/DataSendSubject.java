@@ -6,6 +6,6 @@ public interface DataSendSubject {
 
     void removeObserver(DataSendObserver observer);
 
-    void notifyObservers(String data);
+    void notifyObservers(boolean successfully, String message);
 
 }

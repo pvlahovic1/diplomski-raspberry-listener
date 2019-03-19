@@ -14,6 +14,12 @@ public interface DeviceBuilder {
 
     DeviceBuilder setBeaconDataSendInterval(Integer beaconDataSendInterval);
 
+    DeviceBuilder setDeviceId(String deviceId);
+
+    DeviceBuilder setCentralApplicationUrl(String centralApplicationUrl);
+
+    DeviceBuilder setCentralApplicationBeaconPath(String centralApplicationBeaconPath);
+
     Device build();
 
 }

@@ -3,7 +3,7 @@ package hr.foi.raspberry.listener.configuration;
 import hr.foi.raspberry.listener.model.device.Device;
 import hr.foi.raspberry.listener.mqtt.ListenerMqttCallBack;
 import hr.foi.raspberry.listener.mqtt.MqttHolder;
-import hr.foi.raspberry.listener.service.DeviceService;
+import hr.foi.raspberry.listener.service.device.DeviceService;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.context.annotation.Bean;

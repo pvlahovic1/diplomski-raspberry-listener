@@ -1,4 +1,4 @@
-package hr.foi.raspberry.listener.service;
+package hr.foi.raspberry.listener.service.device;
 
 import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.model.device.Device;

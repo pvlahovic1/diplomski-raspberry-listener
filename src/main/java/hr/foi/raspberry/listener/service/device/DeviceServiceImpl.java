@@ -1,4 +1,4 @@
-package hr.foi.raspberry.listener.service;
+package hr.foi.raspberry.listener.service.device;
 
 import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.model.device.Device;
@@ -76,6 +76,8 @@ public class DeviceServiceImpl implements DeviceService {
             throw new BadDeviceDataException("Mqtt topic title cannot be empty!");
         } else if (device.getBeaconDataSendInterval() == null || device.getBeaconDataSendInterval() >= device.getBeaconDataPurgeInterval()) {
             throw new BadDeviceDataException("Beacon data send interval must be present and lower than Beacon data purge interval!");
+        } else if (device.getDeviceId() == null || device.getDeviceId().isEmpty()) {
+            throw new BadDeviceDataException("Beacon device id cannot be empty!");
         }
 
         return true;

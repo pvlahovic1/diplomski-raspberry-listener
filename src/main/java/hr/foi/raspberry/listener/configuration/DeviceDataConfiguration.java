@@ -4,7 +4,7 @@ import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.model.device.Device;
 import hr.foi.raspberry.listener.model.device.builder.DeviceBuilderDirector;
 import hr.foi.raspberry.listener.model.device.builder.DeviceBuilderImpl;
-import hr.foi.raspberry.listener.service.DeviceService;
+import hr.foi.raspberry.listener.service.device.DeviceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

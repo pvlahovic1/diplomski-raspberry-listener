@@ -3,7 +3,7 @@ package hr.foi.raspberry.listener.mqtt.cain;
 import hr.foi.raspberry.listener.exceptions.BadCommandException;
 import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.model.device.Device;
-import hr.foi.raspberry.listener.service.DeviceService;
+import hr.foi.raspberry.listener.service.device.DeviceService;
 import hr.foi.raspberry.listener.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

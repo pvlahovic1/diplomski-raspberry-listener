@@ -45,6 +45,15 @@ public class DeviceBuilderDirector {
             if (parameter.contains("mqttTopicTitle")) {
                 deviceBuilder.setMqttTopicTitle(getDataFromParameter(parameter));
             }
+            if (parameter.contains("deviceId")) {
+                deviceBuilder.setDeviceId(getDataFromParameter(parameter));
+            }
+            if (parameter.contains("centralApplicationUrl")) {
+                deviceBuilder.setCentralApplicationUrl(getDataFromParameter(parameter));
+            }
+            if (parameter.contains("centralApplicationBeaconPath")) {
+                deviceBuilder.setCentralApplicationBeaconPath(getDataFromParameter(parameter));
+            }
         }
 
         return deviceBuilder.build();

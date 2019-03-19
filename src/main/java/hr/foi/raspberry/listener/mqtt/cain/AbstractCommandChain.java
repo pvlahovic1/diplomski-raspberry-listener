@@ -2,7 +2,7 @@ package hr.foi.raspberry.listener.mqtt.cain;
 
 import hr.foi.raspberry.listener.exceptions.BadCommandException;
 import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
-import hr.foi.raspberry.listener.service.DeviceService;
+import hr.foi.raspberry.listener.service.device.DeviceService;
 
 public abstract class AbstractCommandChain {
 

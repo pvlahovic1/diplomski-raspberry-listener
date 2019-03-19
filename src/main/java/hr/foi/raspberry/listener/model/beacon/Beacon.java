@@ -75,7 +75,8 @@ public class Beacon {
     @Override
     public String toString() {
         return "Beacon{" +
-                "uuid='" + uuid + '\'' +
+                "id='" + id + '\'' +
+                ", uuid='" + uuid + '\'' +
                 ", major=" + major +
                 ", minor=" + minor +
                 '}';

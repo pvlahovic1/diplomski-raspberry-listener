@@ -41,6 +41,24 @@ public class DeviceBuilderImpl implements DeviceBuilder {
     }
 
     @Override
+    public DeviceBuilder setDeviceId(String deviceId) {
+        this.device.setDeviceId(deviceId);
+        return this;
+    }
+
+    @Override
+    public DeviceBuilder setCentralApplicationUrl(String centralApplicationUrl) {
+        this.device.setCentralApplicationUrl(centralApplicationUrl);
+        return this;
+    }
+
+    @Override
+    public DeviceBuilder setCentralApplicationBeaconPath(String centralApplicationBeaconPath) {
+        this.device.setCentralApplicationBeaconPath(centralApplicationBeaconPath);
+        return this;
+    }
+
+    @Override
     public Device build() {
         return this.device;
     }

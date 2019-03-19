@@ -2,8 +2,8 @@ package hr.foi.raspberry.listener.threads;
 
 import hr.foi.raspberry.listener.model.beacon.Beacon;
 import hr.foi.raspberry.listener.model.device.Device;
-import hr.foi.raspberry.listener.service.BeaconService;
-import hr.foi.raspberry.listener.service.DeviceService;
+import hr.foi.raspberry.listener.service.beacon.BeaconService;
+import hr.foi.raspberry.listener.service.device.DeviceService;
 import hr.foi.raspberry.listener.threads.observer.DataSendObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,8 +120,13 @@ public class BeaconDataPurgeThread extends Thread implements DataSendObserver {
     }
 
     @Override
-    public void update(String data) {
-        logger.info("{} Beacon data will be purged!", data);
-        this.isCurrentDataSendToServer = true;
+    public void update(boolean successfully, String data) {
+
+        if (successfully) {
+            logger.info("{} Beacon data will be purged!", data);
+            this.isCurrentDataSendToServer = true;
+        } else {
+            logger.info("Beacon data is not send to central application: {} Skipping purge!", data);
+        }
     }
 }

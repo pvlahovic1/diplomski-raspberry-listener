@@ -5,7 +5,7 @@ import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.mqtt.cain.AbstractCommandChain;
 import hr.foi.raspberry.listener.mqtt.cain.DeviceNameCommandChain;
 import hr.foi.raspberry.listener.mqtt.cain.PuringCommandChain;
-import hr.foi.raspberry.listener.service.DeviceService;
+import hr.foi.raspberry.listener.service.device.DeviceService;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;

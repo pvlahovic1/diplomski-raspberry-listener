@@ -6,11 +6,14 @@ public class Device {
 
     @Id
     private String id;
+    private String deviceId;
     private String name;
     private Integer beaconDataPurgeInterval;
     private Integer beaconDataSendInterval;
     private String mqttTopicUrl;
     private String mqttTopicTitle;
+    private String centralApplicationUrl;
+    private String centralApplicationBeaconPath;
 
     public Device() {
     }
@@ -21,6 +24,14 @@ public class Device {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     public String getName() {
@@ -63,14 +74,34 @@ public class Device {
         this.beaconDataSendInterval = beaconDataSendInterval;
     }
 
+    public String getCentralApplicationUrl() {
+        return centralApplicationUrl;
+    }
+
+    public void setCentralApplicationUrl(String centralApplicationUrl) {
+        this.centralApplicationUrl = centralApplicationUrl;
+    }
+
+    public String getCentralApplicationBeaconPath() {
+        return centralApplicationBeaconPath;
+    }
+
+    public void setCentralApplicationBeaconPath(String centralApplicationBeaconPath) {
+        this.centralApplicationBeaconPath = centralApplicationBeaconPath;
+    }
+
     @Override
     public String toString() {
         return "Device{" +
                 "id='" + id + '\'' +
+                ", deviceId='" + deviceId + '\'' +
                 ", name='" + name + '\'' +
                 ", beaconDataPurgeInterval=" + beaconDataPurgeInterval +
+                ", beaconDataSendInterval=" + beaconDataSendInterval +
                 ", mqttTopicUrl='" + mqttTopicUrl + '\'' +
                 ", mqttTopicTitle='" + mqttTopicTitle + '\'' +
+                ", centralApplicationUrl='" + centralApplicationUrl + '\'' +
+                ", centralApplicationBeaconPath='" + centralApplicationBeaconPath + '\'' +
                 '}';
     }
 }

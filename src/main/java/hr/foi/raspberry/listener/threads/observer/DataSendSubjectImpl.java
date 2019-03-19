@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DataSendSubjectImpl implements DataSendSubject {
 
-    List<DataSendObserver> observers;
+    private List<DataSendObserver> observers;
 
     public DataSendSubjectImpl() {
         observers = new ArrayList<>();
@@ -26,9 +26,10 @@ public class DataSendSubjectImpl implements DataSendSubject {
     }
 
     @Override
-    public void notifyObservers(String data) {
+    public void notifyObservers(boolean successfully, String message) {
         for (DataSendObserver o : observers) {
-            o.update(data);
+            o.update(successfully, message);
         }
     }
+
 }
