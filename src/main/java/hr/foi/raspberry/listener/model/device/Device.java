@@ -7,13 +7,14 @@ public class Device {
     @Id
     private String id;
     private String deviceId;
-    private String name;
+    private String deviceName;
     private Integer beaconDataPurgeInterval;
     private Integer beaconDataSendInterval;
     private String mqttTopicUrl;
     private String mqttTopicTitle;
     private String centralApplicationUrl;
     private String centralApplicationBeaconPath;
+    private String centralApplicationDevicePath;
 
     public Device() {
     }
@@ -34,12 +35,12 @@ public class Device {
         this.deviceId = deviceId;
     }
 
-    public String getName() {
-        return name;
+    public String getDeviceName() {
+        return deviceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     public Integer getBeaconDataPurgeInterval() {
@@ -90,18 +91,27 @@ public class Device {
         this.centralApplicationBeaconPath = centralApplicationBeaconPath;
     }
 
+    public String getCentralApplicationDevicePath() {
+        return centralApplicationDevicePath;
+    }
+
+    public void setCentralApplicationDevicePath(String centralApplicationDevicePath) {
+        this.centralApplicationDevicePath = centralApplicationDevicePath;
+    }
+
     @Override
     public String toString() {
         return "Device{" +
                 "id='" + id + '\'' +
                 ", deviceId='" + deviceId + '\'' +
-                ", name='" + name + '\'' +
+                ", deviceName='" + deviceName + '\'' +
                 ", beaconDataPurgeInterval=" + beaconDataPurgeInterval +
                 ", beaconDataSendInterval=" + beaconDataSendInterval +
                 ", mqttTopicUrl='" + mqttTopicUrl + '\'' +
                 ", mqttTopicTitle='" + mqttTopicTitle + '\'' +
                 ", centralApplicationUrl='" + centralApplicationUrl + '\'' +
                 ", centralApplicationBeaconPath='" + centralApplicationBeaconPath + '\'' +
+                ", centralApplicationDevicePath='" + centralApplicationDevicePath + '\'' +
                 '}';
     }
 }

@@ -12,7 +12,7 @@ public class DeviceBuilderImpl implements DeviceBuilder {
 
     @Override
     public DeviceBuilder setName(String name) {
-        this.device.setName(name);
+        this.device.setDeviceName(name);
         return this;
     }
 
@@ -55,6 +55,12 @@ public class DeviceBuilderImpl implements DeviceBuilder {
     @Override
     public DeviceBuilder setCentralApplicationBeaconPath(String centralApplicationBeaconPath) {
         this.device.setCentralApplicationBeaconPath(centralApplicationBeaconPath);
+        return this;
+    }
+
+    @Override
+    public DeviceBuilder setCentralApplicationDevicePath(String centralApplicationDevicePath) {
+        this.device.setCentralApplicationDevicePath(centralApplicationDevicePath);
         return this;
     }
 

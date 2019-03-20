@@ -46,7 +46,7 @@ public class DeviceServiceImpl implements DeviceService {
             if (!devices.isEmpty()) {
                 Device persistDevice = devices.get(0);
 
-                persistDevice.setName(device.getName());
+                persistDevice.setDeviceName(device.getDeviceName());
                 persistDevice.setBeaconDataPurgeInterval(device.getBeaconDataPurgeInterval());
                 persistDevice.setMqttTopicUrl(device.getMqttTopicUrl());
                 persistDevice.setMqttTopicTitle(device.getMqttTopicTitle());
@@ -66,7 +66,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     private boolean isDeviceValid(Device device) throws BadDeviceDataException {
-        if (device.getName() == null || device.getName().isEmpty()) {
+        if (device.getDeviceName() == null || device.getDeviceName().isEmpty()) {
             throw new BadDeviceDataException("Device name cannot be empty!");
         } else if (device.getBeaconDataPurgeInterval() == null || device.getBeaconDataPurgeInterval() < 1) {
             throw new BadDeviceDataException("Beacon data purge interval must be present and greater than 1!");

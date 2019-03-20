@@ -6,6 +6,7 @@ import hr.foi.raspberry.listener.mqtt.cain.AbstractCommandChain;
 import hr.foi.raspberry.listener.mqtt.cain.DeviceNameCommandChain;
 import hr.foi.raspberry.listener.mqtt.cain.PuringCommandChain;
 import hr.foi.raspberry.listener.service.device.DeviceService;
+import hr.foi.raspberry.listener.service.sender.SenderService;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -17,10 +18,12 @@ public class ListenerMqttCallBack implements MqttCallback {
     private static final Logger logger = LoggerFactory.getLogger(ListenerMqttCallBack.class);
 
     private final DeviceService deviceService;
+    private final SenderService senderService;
     private AbstractCommandChain commandChain;
 
-    public ListenerMqttCallBack(DeviceService deviceService) {
+    public ListenerMqttCallBack(DeviceService deviceService, SenderService senderService) {
         this.deviceService = deviceService;
+        this.senderService = senderService;
         this.commandChain = createAbstractCommandChain();
     }
 
@@ -45,8 +48,8 @@ public class ListenerMqttCallBack implements MqttCallback {
     }
 
     private AbstractCommandChain createAbstractCommandChain() {
-        AbstractCommandChain abstractCommandChain = new DeviceNameCommandChain(deviceService, null);
-        abstractCommandChain = new PuringCommandChain(deviceService, abstractCommandChain);
+        AbstractCommandChain abstractCommandChain = new DeviceNameCommandChain(senderService, deviceService, null);
+        abstractCommandChain = new PuringCommandChain(senderService, deviceService, abstractCommandChain);
 
         return abstractCommandChain;
     }

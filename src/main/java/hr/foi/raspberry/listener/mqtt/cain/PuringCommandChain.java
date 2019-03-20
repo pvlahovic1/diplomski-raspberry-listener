@@ -4,6 +4,7 @@ import hr.foi.raspberry.listener.exceptions.BadCommandException;
 import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.model.device.Device;
 import hr.foi.raspberry.listener.service.device.DeviceService;
+import hr.foi.raspberry.listener.service.sender.SenderService;
 import hr.foi.raspberry.listener.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +13,8 @@ public class PuringCommandChain extends AbstractCommandChain {
 
     private static final Logger logger = LoggerFactory.getLogger(PuringCommandChain.class);
 
-    public PuringCommandChain(DeviceService deviceService, AbstractCommandChain nextCain) {
-        super(deviceService, nextCain);
+    public PuringCommandChain(SenderService senderService, DeviceService deviceService, AbstractCommandChain nextCain) {
+        super(senderService, deviceService, nextCain);
     }
 
     @Override
@@ -26,11 +27,12 @@ public class PuringCommandChain extends AbstractCommandChain {
 
             if (device != null) {
                 String deviceName = data.get(0);
-                if (deviceName.equals("ALL") || deviceName.equals(device.getName())) {
+                if (deviceName.equals("ALL") || deviceName.equals(device.getDeviceName())) {
                     Integer interval = Integer.valueOf(data.get(1));
                     logger.warn("Device puring time will be changed from {} to {}", device.getBeaconDataPurgeInterval(), interval);
                     device.setBeaconDataPurgeInterval(interval);
                     deviceService.updateDevice(device);
+                    sendDeviceData(device);
                 } else {
                     logger.warn("MQTT message is not send for this device");
                 }

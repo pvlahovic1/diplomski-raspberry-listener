@@ -20,6 +20,8 @@ public interface DeviceBuilder {
 
     DeviceBuilder setCentralApplicationBeaconPath(String centralApplicationBeaconPath);
 
+    DeviceBuilder setCentralApplicationDevicePath(String centralApplicationDevicePath);
+
     Device build();
 
 }

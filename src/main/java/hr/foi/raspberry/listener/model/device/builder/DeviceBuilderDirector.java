@@ -54,6 +54,9 @@ public class DeviceBuilderDirector {
             if (parameter.contains("centralApplicationBeaconPath")) {
                 deviceBuilder.setCentralApplicationBeaconPath(getDataFromParameter(parameter));
             }
+            if (parameter.contains("centralApplicationDevicePath")) {
+                deviceBuilder.setCentralApplicationDevicePath(getDataFromParameter(parameter));
+            }
         }
 
         return deviceBuilder.build();

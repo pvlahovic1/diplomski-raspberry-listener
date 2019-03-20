@@ -49,11 +49,16 @@ public class HttpSenderServiceImpl implements SenderService {
             String address = device.getCentralApplicationUrl() + device.getCentralApplicationBeaconPath();
             Sensor sensor = new Sensor(device.getDeviceId(), sensorData);
 
-            RestTemplate rt = new RestTemplate();
-            rt.postForEntity(address, sensor, Void.class);
+            restTemplate.postForEntity(address, sensor, Void.class);
         } else {
             throw new NoDataForSendException("There is no beacon data for sending");
         }
 
+    }
+
+    @Override
+    public void sendDeviceData(Device device) {
+        String address = device.getCentralApplicationUrl() + device.getCentralApplicationDevicePath();
+        restTemplate.put(address, device);
     }
 }

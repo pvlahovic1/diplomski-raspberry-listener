@@ -10,4 +10,5 @@ public interface SenderService {
 
     void sendBeaconData(Device device, List<Beacon> beacon) throws NoDataForSendException;
 
+    void sendDeviceData(Device device);
 }

@@ -4,6 +4,7 @@ import hr.foi.raspberry.listener.exceptions.BadCommandException;
 import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.model.device.Device;
 import hr.foi.raspberry.listener.service.device.DeviceService;
+import hr.foi.raspberry.listener.service.sender.SenderService;
 import hr.foi.raspberry.listener.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +13,8 @@ public class DeviceNameCommandChain extends AbstractCommandChain {
 
     private static final Logger logger = LoggerFactory.getLogger(DeviceNameCommandChain.class);
 
-    public DeviceNameCommandChain(DeviceService deviceService, AbstractCommandChain nextCain) {
-        super(deviceService, nextCain);
+    public DeviceNameCommandChain(SenderService senderService, DeviceService deviceService, AbstractCommandChain nextCain) {
+        super(senderService, deviceService, nextCain);
     }
 
     @Override
@@ -26,10 +27,11 @@ public class DeviceNameCommandChain extends AbstractCommandChain {
 
             if (device != null) {
                 String deviceName = data.get(0);
-                if (deviceName.equals(device.getName())) {
-                    logger.warn("Device name will be changed from {} to {}", device.getName(), data.get(1));
-                    device.setName(data.get(1));
+                if (deviceName.equals(device.getDeviceName())) {
+                    logger.warn("Device name will be changed from {} to {}", device.getDeviceName(), data.get(1));
+                    device.setDeviceName(data.get(1));
                     deviceService.updateDevice(device);
+                    sendDeviceData(device);
                 } else {
                     logger.warn("MQTT message is not send for this device");
                 }
