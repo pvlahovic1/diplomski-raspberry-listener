@@ -6,6 +6,10 @@ public interface DeviceBuilder {
 
     DeviceBuilder setName(String name);
 
+    DeviceBuilder setUsername(String username);
+
+    DeviceBuilder setPassword(String password);
+
     DeviceBuilder setBeaconDataPurgeInterval(Integer beaconDataPurgeInterval);
 
     DeviceBuilder setMqttTopicTitle(String mqttTopicTitle);
@@ -21,6 +25,10 @@ public interface DeviceBuilder {
     DeviceBuilder setCentralApplicationBeaconPath(String centralApplicationBeaconPath);
 
     DeviceBuilder setCentralApplicationDevicePath(String centralApplicationDevicePath);
+
+    DeviceBuilder setCentralApplicationAuthenticationPath(String centralApplicationAuthenticationPath);
+
+    DeviceBuilder setJwtSecret(String jwtSecret);
 
     Device build();
 

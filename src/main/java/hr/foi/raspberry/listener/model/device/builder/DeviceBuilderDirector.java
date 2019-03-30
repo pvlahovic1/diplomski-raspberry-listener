@@ -57,6 +57,18 @@ public class DeviceBuilderDirector {
             if (parameter.contains("centralApplicationDevicePath")) {
                 deviceBuilder.setCentralApplicationDevicePath(getDataFromParameter(parameter));
             }
+            if (parameter.contains("username")) {
+                deviceBuilder.setUsername(getDataFromParameter(parameter));
+            }
+            if (parameter.contains("password")) {
+                deviceBuilder.setPassword(getDataFromParameter(parameter));
+            }
+            if (parameter.contains("centralApplicationAuthenticationPath")) {
+                deviceBuilder.setCentralApplicationAuthenticationPath(getDataFromParameter(parameter));
+            }
+            if (parameter.contains("jwtSecret")) {
+                deviceBuilder.setJwtSecret(getDataFromParameter(parameter));
+            }
         }
 
         return deviceBuilder.build();

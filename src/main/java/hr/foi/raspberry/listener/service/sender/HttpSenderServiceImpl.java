@@ -5,10 +5,13 @@ import hr.foi.raspberry.listener.model.beacon.Beacon;
 import hr.foi.raspberry.listener.model.beacon.BeaconRecord;
 import hr.foi.raspberry.listener.model.beacon.BeaconRecordPrecisionCalculator;
 import hr.foi.raspberry.listener.model.device.Device;
-import hr.foi.raspberry.listener.service.device.DeviceService;
+import hr.foi.raspberry.listener.service.authentication.AuthenticationService;
+import hr.foi.raspberry.listener.service.authentication.Token;
 import hr.foi.raspberry.listener.service.sender.data.Sensor;
 import hr.foi.raspberry.listener.service.sender.data.SensorData;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,13 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class HttpSenderServiceImpl implements SenderService {
 
-    private final DeviceService deviceService;
+    private final AuthenticationService authenticationService;
     private final BeaconRecordPrecisionCalculator precisionCalculator;
     private final RestTemplate restTemplate;
 
-    public HttpSenderServiceImpl(DeviceService deviceService, BeaconRecordPrecisionCalculator precisionCalculator,
+    public HttpSenderServiceImpl(AuthenticationService authenticationService,
+            BeaconRecordPrecisionCalculator precisionCalculator,
                                  RestTemplateBuilder restTemplateBuilder) {
-        this.deviceService = deviceService;
+        this.authenticationService = authenticationService;
         this.precisionCalculator = precisionCalculator;
         this.restTemplate = restTemplateBuilder.build();
     }
@@ -49,16 +53,32 @@ public class HttpSenderServiceImpl implements SenderService {
             String address = device.getCentralApplicationUrl() + device.getCentralApplicationBeaconPath();
             Sensor sensor = new Sensor(device.getDeviceId(), sensorData);
 
-            restTemplate.postForEntity(address, sensor, Void.class);
+            makeHttpRequest(authenticationService.getValidToken(device), address, sensor);
         } else {
             throw new NoDataForSendException("There is no beacon data for sending");
         }
+    }
 
+    private void makeHttpRequest(Token token, String address, Sensor sensor) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token.getValue());
+
+        HttpEntity<Sensor> entity = new HttpEntity<>(sensor, headers);
+
+        restTemplate.postForEntity(address, entity, Void.class);
     }
 
     @Override
     public void sendDeviceData(Device device) {
+        Token token  = authenticationService.getValidToken(device);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token.getValue());
+        headers.setBearerAuth(token.getValue());
+
+        HttpEntity<Device> entity = new HttpEntity<>(device, headers);
+
         String address = device.getCentralApplicationUrl() + device.getCentralApplicationDevicePath();
-        restTemplate.put(address, device);
+        restTemplate.put(address, entity);
     }
 }

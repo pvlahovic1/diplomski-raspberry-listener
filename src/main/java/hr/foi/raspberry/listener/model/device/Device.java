@@ -8,6 +8,8 @@ public class Device {
     private String id;
     private String deviceId;
     private String deviceName;
+    private String username;
+    private String password;
     private Integer beaconDataPurgeInterval;
     private Integer beaconDataSendInterval;
     private String mqttTopicUrl;
@@ -15,6 +17,8 @@ public class Device {
     private String centralApplicationUrl;
     private String centralApplicationBeaconPath;
     private String centralApplicationDevicePath;
+    private String centralApplicationAuthenticationPath;
+    private String jwtSecret;
 
     public Device() {
     }
@@ -43,12 +47,36 @@ public class Device {
         this.deviceName = deviceName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Integer getBeaconDataPurgeInterval() {
         return beaconDataPurgeInterval;
     }
 
     public void setBeaconDataPurgeInterval(Integer beaconDataPurgeInterval) {
         this.beaconDataPurgeInterval = beaconDataPurgeInterval;
+    }
+
+    public Integer getBeaconDataSendInterval() {
+        return beaconDataSendInterval;
+    }
+
+    public void setBeaconDataSendInterval(Integer beaconDataSendInterval) {
+        this.beaconDataSendInterval = beaconDataSendInterval;
     }
 
     public String getMqttTopicUrl() {
@@ -65,14 +93,6 @@ public class Device {
 
     public void setMqttTopicTitle(String mqttTopicTitle) {
         this.mqttTopicTitle = mqttTopicTitle;
-    }
-
-    public Integer getBeaconDataSendInterval() {
-        return beaconDataSendInterval;
-    }
-
-    public void setBeaconDataSendInterval(Integer beaconDataSendInterval) {
-        this.beaconDataSendInterval = beaconDataSendInterval;
     }
 
     public String getCentralApplicationUrl() {
@@ -99,12 +119,30 @@ public class Device {
         this.centralApplicationDevicePath = centralApplicationDevicePath;
     }
 
+    public String getCentralApplicationAuthenticationPath() {
+        return centralApplicationAuthenticationPath;
+    }
+
+    public void setCentralApplicationAuthenticationPath(String centralApplicationAuthenticationPath) {
+        this.centralApplicationAuthenticationPath = centralApplicationAuthenticationPath;
+    }
+
+    public String getJwtSecret() {
+        return jwtSecret;
+    }
+
+    public void setJwtSecret(String jwtSecret) {
+        this.jwtSecret = jwtSecret;
+    }
+
     @Override
     public String toString() {
         return "Device{" +
                 "id='" + id + '\'' +
                 ", deviceId='" + deviceId + '\'' +
                 ", deviceName='" + deviceName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", beaconDataPurgeInterval=" + beaconDataPurgeInterval +
                 ", beaconDataSendInterval=" + beaconDataSendInterval +
                 ", mqttTopicUrl='" + mqttTopicUrl + '\'' +
@@ -112,6 +150,8 @@ public class Device {
                 ", centralApplicationUrl='" + centralApplicationUrl + '\'' +
                 ", centralApplicationBeaconPath='" + centralApplicationBeaconPath + '\'' +
                 ", centralApplicationDevicePath='" + centralApplicationDevicePath + '\'' +
+                ", centralApplicationAuthenticationPath='" + centralApplicationAuthenticationPath + '\'' +
+                ", jwtSecret='" + jwtSecret + '\'' +
                 '}';
     }
 }

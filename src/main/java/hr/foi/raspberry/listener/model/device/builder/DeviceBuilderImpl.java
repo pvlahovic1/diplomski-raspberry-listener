@@ -17,6 +17,18 @@ public class DeviceBuilderImpl implements DeviceBuilder {
     }
 
     @Override
+    public DeviceBuilder setUsername(String username) {
+        this.device.setUsername(username);
+        return this;
+    }
+
+    @Override
+    public DeviceBuilder setPassword(String password) {
+        this.device.setPassword(password);
+        return this;
+    }
+
+    @Override
     public DeviceBuilder setBeaconDataPurgeInterval(Integer beaconDataPurgeInterval) {
         this.device.setBeaconDataPurgeInterval(beaconDataPurgeInterval);
         return this;
@@ -61,6 +73,18 @@ public class DeviceBuilderImpl implements DeviceBuilder {
     @Override
     public DeviceBuilder setCentralApplicationDevicePath(String centralApplicationDevicePath) {
         this.device.setCentralApplicationDevicePath(centralApplicationDevicePath);
+        return this;
+    }
+
+    @Override
+    public DeviceBuilder setCentralApplicationAuthenticationPath(String centralApplicationAuthenticationPath) {
+        this.device.setCentralApplicationAuthenticationPath(centralApplicationAuthenticationPath);
+        return this;
+    }
+
+    @Override
+    public DeviceBuilder setJwtSecret(String jwtSecret) {
+        this.device.setJwtSecret(jwtSecret);
         return this;
     }
 
