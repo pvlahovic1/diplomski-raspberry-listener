@@ -26,12 +26,12 @@ public class DeviceNameCommandChain extends AbstractCommandChain {
             Device device = deviceService.findDeviceData();
 
             if (device != null) {
-                String deviceName = data.get(0);
-                if (deviceName.equals(device.getDeviceName())) {
+                String deviceId = data.get(0);
+                if (deviceId.equals(device.getDeviceId())) {
                     logger.warn("Device name will be changed from {} to {}", device.getDeviceName(), data.get(1));
                     device.setDeviceName(data.get(1));
-                    deviceService.updateDevice(device);
                     sendDeviceData(device);
+                    deviceService.updateDevice(device);
                 } else {
                     logger.warn("MQTT message is not send for this device");
                 }

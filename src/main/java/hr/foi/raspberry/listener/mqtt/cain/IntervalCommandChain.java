@@ -9,28 +9,31 @@ import hr.foi.raspberry.listener.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PuringCommandChain extends AbstractCommandChain {
+public class IntervalCommandChain extends AbstractCommandChain {
 
-    private static final Logger logger = LoggerFactory.getLogger(PuringCommandChain.class);
+    private static final Logger logger = LoggerFactory.getLogger(IntervalCommandChain.class);
 
-    public PuringCommandChain(SenderService senderService, DeviceService deviceService, AbstractCommandChain nextCain) {
+    public IntervalCommandChain(SenderService senderService, DeviceService deviceService, AbstractCommandChain nextCain) {
         super(senderService, deviceService, nextCain);
     }
 
     @Override
     public void handleCommand(String command) throws BadCommandException, BadDeviceDataException {
-        if (CommonUtils.isSyntaxValid(CommonUtils.PURING_TIME_COMMAND, command)) {
-            logger.info("MQTT message will be handled by: PuringCommandChain");
-            var data = CommonUtils.dataFromSyntax(CommonUtils.PURING_TIME_COMMAND, command);
+        if (CommonUtils.isSyntaxValid(CommonUtils.INTERVAL_COMMAND, command)) {
+            logger.info("MQTT message will be handled by: IntervalCommandChain");
+            var data = CommonUtils.dataFromSyntax(CommonUtils.INTERVAL_COMMAND, command);
 
             Device device = deviceService.findDeviceData();
 
             if (device != null) {
-                String deviceName = data.get(0);
-                if (deviceName.equals("ALL") || deviceName.equals(device.getDeviceName())) {
-                    Integer interval = Integer.valueOf(data.get(1));
-                    logger.warn("Device puring time will be changed from {} to {}", device.getBeaconDataPurgeInterval(), interval);
-                    device.setBeaconDataPurgeInterval(interval);
+                String deviceId = data.get(0);
+                if (deviceId.equals("ALL") || deviceId.equals(device.getDeviceId())) {
+                    Integer puringInterval = Integer.valueOf(data.get(1));
+                    Integer sendInterval = Integer.valueOf(data.get(2));
+                    logger.warn("Device sending time will be changed from {} to {}", device.getBeaconDataSendInterval(), sendInterval);
+                    logger.warn("Device puring time will be changed from {} to {}", device.getBeaconDataPurgeInterval(), puringInterval);
+                    device.setBeaconDataPurgeInterval(puringInterval);
+                    device.setBeaconDataSendInterval(sendInterval);
                     deviceService.updateDevice(device);
                     sendDeviceData(device);
                 } else {

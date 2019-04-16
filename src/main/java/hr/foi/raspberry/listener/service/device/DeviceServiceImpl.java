@@ -48,6 +48,7 @@ public class DeviceServiceImpl implements DeviceService {
 
                 persistDevice.setDeviceName(device.getDeviceName());
                 persistDevice.setBeaconDataPurgeInterval(device.getBeaconDataPurgeInterval());
+                persistDevice.setBeaconDataSendInterval(device.getBeaconDataSendInterval());
                 persistDevice.setMqttTopicUrl(device.getMqttTopicUrl());
                 persistDevice.setMqttTopicTitle(device.getMqttTopicTitle());
 

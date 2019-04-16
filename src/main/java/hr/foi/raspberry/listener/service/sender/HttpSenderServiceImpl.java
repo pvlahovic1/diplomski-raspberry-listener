@@ -74,7 +74,6 @@ public class HttpSenderServiceImpl implements SenderService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token.getValue());
-        headers.setBearerAuth(token.getValue());
 
         HttpEntity<Device> entity = new HttpEntity<>(device, headers);
 

@@ -1,10 +1,8 @@
 package hr.foi.raspberry.listener.mqtt;
 
-import hr.foi.raspberry.listener.exceptions.BadCommandException;
-import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.mqtt.cain.AbstractCommandChain;
 import hr.foi.raspberry.listener.mqtt.cain.DeviceNameCommandChain;
-import hr.foi.raspberry.listener.mqtt.cain.PuringCommandChain;
+import hr.foi.raspberry.listener.mqtt.cain.IntervalCommandChain;
 import hr.foi.raspberry.listener.service.device.DeviceService;
 import hr.foi.raspberry.listener.service.sender.SenderService;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -37,7 +35,7 @@ public class ListenerMqttCallBack implements MqttCallback {
         logger.info("MQTT message arrived: {}", mqttMessage.toString());
         try {
             commandChain.handleCommand(mqttMessage.toString());
-        } catch (BadCommandException | BadDeviceDataException e) {
+        } catch (Exception e) {
             logger.error("Error while handling mqtt message: {}; {}", e.getMessage(), e);
         }
     }
@@ -49,7 +47,7 @@ public class ListenerMqttCallBack implements MqttCallback {
 
     private AbstractCommandChain createAbstractCommandChain() {
         AbstractCommandChain abstractCommandChain = new DeviceNameCommandChain(senderService, deviceService, null);
-        abstractCommandChain = new PuringCommandChain(senderService, deviceService, abstractCommandChain);
+        abstractCommandChain = new IntervalCommandChain(senderService, deviceService, abstractCommandChain);
 
         return abstractCommandChain;
     }
