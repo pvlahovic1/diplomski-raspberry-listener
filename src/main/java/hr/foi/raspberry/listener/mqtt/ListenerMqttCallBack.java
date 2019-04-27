@@ -5,6 +5,7 @@ import hr.foi.raspberry.listener.mqtt.cain.DeviceNameCommandChain;
 import hr.foi.raspberry.listener.mqtt.cain.IntervalCommandChain;
 import hr.foi.raspberry.listener.service.device.DeviceService;
 import hr.foi.raspberry.listener.service.sender.SenderService;
+import hr.foi.raspberry.listener.utils.CommonUtils;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -32,9 +33,11 @@ public class ListenerMqttCallBack implements MqttCallback {
 
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) {
-        logger.info("MQTT message arrived: {}", mqttMessage.toString());
         try {
-            commandChain.handleCommand(mqttMessage.toString());
+            if (!CommonUtils.isSyntaxValid(CommonUtils.DEVICE_ACTIVITY_PROOF_MESSAGE, mqttMessage.toString())) {
+                logger.info("MQTT message arrived: {}", mqttMessage.toString());
+                commandChain.handleCommand(mqttMessage.toString());
+            }
         } catch (Exception e) {
             logger.error("Error while handling mqtt message: {}; {}", e.getMessage(), e);
         }

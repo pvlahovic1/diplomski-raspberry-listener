@@ -13,6 +13,10 @@ public class MqttHolder {
         this.mqttClient = mqttClient;
     }
 
+    public MqttClient getMqttClient() {
+        return mqttClient;
+    }
+
     @PreDestroy
     public void disconnect() {
         try {

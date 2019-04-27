@@ -9,6 +9,7 @@ public class CommonUtils {
 
     public static final String INTERVAL_COMMAND = "^DEVICE_ID (ALL|[0-9a-zA-z ]{64});PURING_INTERVAL ([1-9][0-9]*);SEND_INTERVAL ([1-9][0-9]*);$";
     public static final String DEVICE_NAME_COMMAND = "^DEVICE_ID ([0-9a-zA-z ]{64});SET_NAME ([0-9a-zA-z ]+);$";
+    public static final String DEVICE_ACTIVITY_PROOF_MESSAGE = "^DEVICE_ID ([0-9a-zA-z ]{64});ACTIVITY_PROOF;$";
     
     public static boolean isSyntaxValid(String syntax, String word) {
         Pattern pattern = Pattern.compile(syntax);
