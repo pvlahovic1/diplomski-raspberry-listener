@@ -1,0 +1,19 @@
+body {
+    background-color: #b5b5b5;
+}
+
+.top50 {
+    margin-top: 50px;
+}
+
+.top20 {
+    margin-top: 20px;
+}
+
+.row-area {
+    padding:90px;
+}
+
+.beacon-name {
+    margin-left:10px;
+}

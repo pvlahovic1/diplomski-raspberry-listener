@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Beaconi</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/datatables/1.10.19/css/jquery.dataTables.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/beacons.css}"/>
+
+    <script type="text/javascript" th:src="@{webjars/jquery/3.4.0/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/datatables/1.10.19/js/jquery.dataTables.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/beacons.js}"></script>
+
+</head>
+<body>
+
+<div class="row-area" th:each="beacon: ${beacons}">
+    <div class="beacon-name">
+        <p class="h5" th:text="'Zapisi za beacon ' + ${beacon.uuid} + ' ' + ${beacon.major} + ' ' + ${beacon.minor} + ':'"></p>
+    </div>
+    <table th:id="'beaconTable' + ${beacon.id}" class="table display">
+        <thead>
+        <tr>
+            <th>txPower</th>
+            <th>RSSI</th>
+            <th>Udaljenost</th>
+            <th>Vrijeme</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record : ${beacon.records}">
+            <td th:text="${record.txPower}">txPower</td>
+            <td th:text="${record.rssi}">RSSI</td>
+            <td th:text="${record.distance}">Udaljenost</td>
+            <td th:text="${#temporals.format(record.dateTime, 'dd.MM.yyyy HH:mm')}">Vrijeme</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="top50"></div>
+</div>
+
+</body>
+</html>
