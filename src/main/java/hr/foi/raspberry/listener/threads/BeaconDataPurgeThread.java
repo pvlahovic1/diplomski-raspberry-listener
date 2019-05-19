@@ -39,7 +39,7 @@ public class BeaconDataPurgeThread extends Thread implements DataSendObserver {
         try {
             makePurge();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Error in BeaconDataPurgeThread: ", e);
         }
         while (this.running) {
             while(!this.paused) {
@@ -50,7 +50,7 @@ public class BeaconDataPurgeThread extends Thread implements DataSendObserver {
                         Thread.sleep(WAIT_FOR_DATA_SENDING);
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.error("Error in BeaconDataPurgeThread: ", e);
                 }
             }
         }
@@ -121,7 +121,6 @@ public class BeaconDataPurgeThread extends Thread implements DataSendObserver {
 
     @Override
     public void update(boolean successfully, String data) {
-
         if (successfully) {
             logger.info("{} Beacon data will be purged!", data);
             this.isCurrentDataSendToServer = true;

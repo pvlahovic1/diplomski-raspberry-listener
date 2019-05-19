@@ -23,7 +23,7 @@ public class BeaconServiceImpl implements BeaconService {
         var optional = beaconRepository.findBeaconByUuidAndMajorAndMinor(beacon.getUuid(), beacon.getMajor(),
                 beacon.getMinor());
 
-        Beacon persistBeacon = optional.orElseGet(() -> beaconRepository.save(new Beacon(beacon.getUuid(),
+        Beacon persistBeacon = optional.orElse(beaconRepository.save(new Beacon(beacon.getUuid(),
                 beacon.getMajor(), beacon.getMinor())));
 
         for (BeaconRecord e : beacon.getRecords()) {

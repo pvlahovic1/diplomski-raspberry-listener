@@ -44,7 +44,7 @@ public class BeaconDataSendThread extends Thread {
                     logger.info("Thread for sending beacon data is starting.");
                     sendBeaconData();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.error("Error in BeaconDataSendThread: ", e);
                 }
             }
         }

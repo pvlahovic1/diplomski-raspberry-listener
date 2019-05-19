@@ -5,8 +5,11 @@ import hr.foi.raspberry.listener.mqtt.ListenerMqttCallBack;
 import hr.foi.raspberry.listener.mqtt.MqttHolder;
 import hr.foi.raspberry.listener.service.device.DeviceService;
 import hr.foi.raspberry.listener.service.sender.SenderService;
+import hr.foi.raspberry.listener.threads.BeaconDataPurgeThread;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,6 +17,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 public class MqttConfiguration {
+
+    private static final Logger logger = LoggerFactory.getLogger(BeaconDataPurgeThread.class);
 
     private final DeviceService deviceService;
     private final SenderService senderService;
@@ -37,7 +42,7 @@ public class MqttConfiguration {
                 client.subscribe(device.getMqttTopicTitle());
                 mqttHolder = new MqttHolder(client);
             } catch (MqttException e) {
-                e.printStackTrace();
+                logger.error("Error while creating MqttHolder: ", e);
             }
         }
 

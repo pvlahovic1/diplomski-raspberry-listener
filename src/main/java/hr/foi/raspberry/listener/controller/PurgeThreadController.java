@@ -1,23 +1,18 @@
 package hr.foi.raspberry.listener.controller;
 
-import hr.foi.raspberry.listener.controller.data.PurgeThreadSettings;
-import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
-import hr.foi.raspberry.listener.model.device.Device;
-import hr.foi.raspberry.listener.service.device.DeviceService;
 import hr.foi.raspberry.listener.threads.BeaconDataPurgeThread;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/purges")
 public class PurgeThreadController {
 
     private final BeaconDataPurgeThread beaconDataPurgeThread;
-    private final DeviceService deviceService;
 
-    public PurgeThreadController(BeaconDataPurgeThread beaconDataPurgeThread, DeviceService deviceService) {
+    public PurgeThreadController(BeaconDataPurgeThread beaconDataPurgeThread) {
         this.beaconDataPurgeThread = beaconDataPurgeThread;
-        this.deviceService = deviceService;
     }
 
     @GetMapping("/resume")
@@ -32,20 +27,6 @@ public class PurgeThreadController {
     @GetMapping("/pause")
     public void pauseThread() {
         this.beaconDataPurgeThread.pauseThread();
-    }
-
-    @PostMapping("/config")
-    public void setThreadConfiguration(@Validated @RequestBody PurgeThreadSettings purgeThreadSettings) {
-        Device device = deviceService.findDeviceData();
-
-        if (device != null) {
-            device.setBeaconDataPurgeInterval(purgeThreadSettings.getPurgeThreadInterval());
-            try {
-                deviceService.updateDevice(device);
-            } catch (BadDeviceDataException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }
