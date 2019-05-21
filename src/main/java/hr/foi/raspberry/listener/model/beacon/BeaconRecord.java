@@ -1,10 +1,13 @@
 package hr.foi.raspberry.listener.model.beacon;
 
+import javax.validation.constraints.Max;
 import java.time.LocalDateTime;
 
 public class BeaconRecord {
 
+    @Max(-1)
     private Integer txPower;
+    @Max(-1)
     private Double rssi;
     private Double distance;
     private LocalDateTime dateTime;

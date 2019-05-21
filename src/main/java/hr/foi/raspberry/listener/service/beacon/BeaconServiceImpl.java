@@ -1,6 +1,5 @@
 package hr.foi.raspberry.listener.service.beacon;
 
-import hr.foi.raspberry.listener.exceptions.BadRssiException;
 import hr.foi.raspberry.listener.model.beacon.Beacon;
 import hr.foi.raspberry.listener.model.beacon.BeaconRecord;
 import hr.foi.raspberry.listener.repository.BeaconRepository;
@@ -19,11 +18,11 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     @Override
-    public void addNewBeaconRecord(Beacon beacon) throws BadRssiException {
+    public void addNewBeaconRecord(Beacon beacon) {
         var optional = beaconRepository.findBeaconByUuidAndMajorAndMinor(beacon.getUuid(), beacon.getMajor(),
                 beacon.getMinor());
 
-        Beacon persistBeacon = optional.orElse(beaconRepository.save(new Beacon(beacon.getUuid(),
+        Beacon persistBeacon = optional.orElseGet(() -> beaconRepository.save(new Beacon(beacon.getUuid(),
                 beacon.getMajor(), beacon.getMinor())));
 
         for (BeaconRecord e : beacon.getRecords()) {
@@ -48,29 +47,17 @@ public class BeaconServiceImpl implements BeaconService {
         beaconRepository.deleteAll(beacons);
     }
 
-    private BeaconRecord populateBeaconRecordData(BeaconRecord beaconRecord) throws BadRssiException {
+    private BeaconRecord populateBeaconRecordData(BeaconRecord beaconRecord) {
         beaconRecord.setDistance(calculateDistance(beaconRecord.getTxPower(), beaconRecord.getRssi()));
         beaconRecord.setDateTime(LocalDateTime.now());
 
         return beaconRecord;
     }
 
-    private double calculateDistance(Integer txPower, Double rssi) throws BadRssiException {
-        if (rssi == 0) {
-            throw new BadRssiException("RSSI is 0! Accuracy cannot be denominated.");
-        }
+    private double calculateDistance(Integer txPower, Double rssi) {
+        double dbDifference = txPower - rssi;
+        double dbLinear = Math.pow(10, dbDifference / 10);
 
-        double distance;
-
-        double ratio = rssi * 1.0 / txPower;
-        if (ratio < 1.0) {
-            distance =  Math.pow(ratio,10);
-        }
-        else {
-            distance =  0.89976 * Math.pow(ratio, 7.7095) + 0.111;
-        }
-
-        return distance;
+        return Math.sqrt(dbLinear);
     }
-
 }

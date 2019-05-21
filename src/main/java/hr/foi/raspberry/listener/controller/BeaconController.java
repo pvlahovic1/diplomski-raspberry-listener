@@ -1,6 +1,5 @@
 package hr.foi.raspberry.listener.controller;
 
-import hr.foi.raspberry.listener.exceptions.BadRssiException;
 import hr.foi.raspberry.listener.model.beacon.Beacon;
 import hr.foi.raspberry.listener.service.beacon.BeaconService;
 import org.slf4j.Logger;
@@ -29,7 +28,7 @@ public class BeaconController {
         try {
             beaconService.addNewBeaconRecord(beacon);
             return new ResponseEntity(HttpStatus.OK);
-        } catch (BadRssiException e) {
+        } catch (Exception e) {
             logger.warn("Error while saving beacon data: ", e);
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
