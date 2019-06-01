@@ -34,7 +34,7 @@
             <td th:text="${record.txPower}">txPower</td>
             <td th:text="${record.rssi}">RSSI</td>
             <td th:text="${record.distance}">Udaljenost</td>
-            <td th:text="${#temporals.format(record.dateTime, 'dd.MM.yyyy HH:mm')}">Vrijeme</td>
+            <td th:text="${#temporals.format(record.dateTime, 'dd.MM.yyyy HH:mm:ss.SSS')}">Vrijeme</td>
         </tr>
         </tbody>
     </table>
