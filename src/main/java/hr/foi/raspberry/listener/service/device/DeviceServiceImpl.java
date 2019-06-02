@@ -5,6 +5,8 @@ import hr.foi.raspberry.listener.model.device.Device;
 import hr.foi.raspberry.listener.repository.DeviceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class DeviceServiceImpl implements DeviceService {
 
@@ -28,14 +30,15 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public Device findDeviceData() {
+    public Optional<Device> findDeviceData() {
+        Device device = null;
         var devices = deviceRepository.findAll();
 
         if (!devices.isEmpty()) {
-            return devices.get(0);
+            device = devices.get(0);
         }
 
-        return null;
+        return Optional.ofNullable(device);
     }
 
     @Override

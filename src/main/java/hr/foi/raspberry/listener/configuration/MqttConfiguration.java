@@ -30,7 +30,7 @@ public class MqttConfiguration {
 
     @Bean
     public MqttHolder createMqttHolder() {
-        Device device = deviceService.findDeviceData();
+        Device device = deviceService.findDeviceData().orElse(null);
         MqttHolder mqttHolder = null;
         if (device != null) {
             ListenerMqttCallBack listenerMqttCallBack = new ListenerMqttCallBack(deviceService, senderService);

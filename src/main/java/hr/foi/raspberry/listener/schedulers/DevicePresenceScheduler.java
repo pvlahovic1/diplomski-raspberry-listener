@@ -1,5 +1,6 @@
 package hr.foi.raspberry.listener.schedulers;
 
+import hr.foi.raspberry.listener.exceptions.BadDeviceDataException;
 import hr.foi.raspberry.listener.model.device.Device;
 import hr.foi.raspberry.listener.mqtt.MqttHolder;
 import hr.foi.raspberry.listener.service.device.DeviceService;
@@ -27,7 +28,8 @@ public class DevicePresenceScheduler {
     public void sendPresenceProof() {
         try {
             log.info("Sending presence proof to MQTT server.");
-            Device device = deviceService.findDeviceData();
+            Device device = deviceService.findDeviceData()
+                    .orElseThrow(() -> new BadDeviceDataException("Device not present"));
 
             String message = String.format("DEVICE_ID %s;ACTIVITY_PROOF;", device.getDeviceId());
 

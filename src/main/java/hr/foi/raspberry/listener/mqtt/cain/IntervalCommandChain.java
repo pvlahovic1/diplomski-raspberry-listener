@@ -23,24 +23,21 @@ public class IntervalCommandChain extends AbstractCommandChain {
             logger.info("MQTT message will be handled by: IntervalCommandChain");
             var data = CommonUtils.dataFromSyntax(CommonUtils.INTERVAL_COMMAND, command);
 
-            Device device = deviceService.findDeviceData();
+            Device device = deviceService.findDeviceData()
+                    .orElseThrow(() -> new BadDeviceDataException("Device data is not present"));
 
-            if (device != null) {
-                String deviceId = data.get(0);
-                if (deviceId.equals("ALL") || deviceId.equals(device.getDeviceId())) {
-                    Integer puringInterval = Integer.valueOf(data.get(1));
-                    Integer sendInterval = Integer.valueOf(data.get(2));
-                    logger.warn("Device sending time will be changed from {} to {}", device.getBeaconDataSendInterval(), sendInterval);
-                    logger.warn("Device puring time will be changed from {} to {}", device.getBeaconDataPurgeInterval(), puringInterval);
-                    device.setBeaconDataPurgeInterval(puringInterval);
-                    device.setBeaconDataSendInterval(sendInterval);
-                    deviceService.updateDevice(device);
-                    sendDeviceData(device);
-                } else {
-                    logger.warn("MQTT message is not send for this device");
-                }
+            String deviceId = data.get(0);
+            if (deviceId.equals("ALL") || deviceId.equals(device.getDeviceId())) {
+                Integer puringInterval = Integer.valueOf(data.get(1));
+                Integer sendInterval = Integer.valueOf(data.get(2));
+                logger.warn("Device sending time will be changed from {} to {}", device.getBeaconDataSendInterval(), sendInterval);
+                logger.warn("Device puring time will be changed from {} to {}", device.getBeaconDataPurgeInterval(), puringInterval);
+                device.setBeaconDataPurgeInterval(puringInterval);
+                device.setBeaconDataSendInterval(sendInterval);
+                deviceService.updateDevice(device);
+                sendDeviceData(device);
             } else {
-                throw new BadDeviceDataException("Device data is not present");
+                logger.warn("MQTT message is not send for this device");
             }
         } else {
             if (nextCain != null) {

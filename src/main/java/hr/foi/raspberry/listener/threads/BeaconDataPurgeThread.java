@@ -93,7 +93,7 @@ public class BeaconDataPurgeThread extends Thread implements DataSendObserver {
     }
 
     private Integer getPurgeThreadInterval() {
-        Device device = deviceService.findDeviceData();
+        Device device = deviceService.findDeviceData().orElse(null);
         Integer purgeThreadInterval = DEFAULT_PURGE_THREAD_INTERVAL;
         if (device != null) {
             purgeThreadInterval = device.getBeaconDataPurgeInterval();

@@ -32,7 +32,7 @@ public class DeviceDataConfiguration {
     @PostConstruct
     public void deviceDataCheck() throws BadDeviceDataException {
         logger.info("Checking device data.");
-        Device device = deviceService.findDeviceData();
+        Device device = deviceService.findDeviceData().orElse(null);
         if (device != null) {
             String forceConfiguration = System.getProperty("forceConfiguration");
             if (forceConfiguration != null && forceConfiguration.equals("true")) {

@@ -52,7 +52,7 @@ public class BeaconDataSendThread extends Thread {
 
     private void sendBeaconData() {
         List<Beacon> beacons = beaconService.getAllBeacons();
-        Device device = deviceService.findDeviceData();
+        Device device = deviceService.findDeviceData().orElse(null);
 
         if (device != null) {
             try {
@@ -71,7 +71,7 @@ public class BeaconDataSendThread extends Thread {
     }
 
     private Integer getBeaconDataSendInterval() {
-        Device device = deviceService.findDeviceData();
+        Device device = deviceService.findDeviceData().orElse(null);
         Integer purgeThreadInterval = defaultSendInterval;
         if (device != null) {
             purgeThreadInterval = device.getBeaconDataSendInterval();

@@ -23,20 +23,17 @@ public class DeviceNameCommandChain extends AbstractCommandChain {
             logger.info("MQTT message will be handled by: DeviceNameCommandChain");
             var data = CommonUtils.dataFromSyntax(CommonUtils.DEVICE_NAME_COMMAND, command);
 
-            Device device = deviceService.findDeviceData();
+            Device device = deviceService.findDeviceData()
+                    .orElseThrow(() -> new BadDeviceDataException("Device data is not present"));
 
-            if (device != null) {
-                String deviceId = data.get(0);
-                if (deviceId.equals(device.getDeviceId())) {
-                    logger.warn("Device name will be changed from {} to {}", device.getDeviceName(), data.get(1));
-                    device.setDeviceName(data.get(1));
-                    sendDeviceData(device);
-                    deviceService.updateDevice(device);
-                } else {
-                    logger.warn("MQTT message is not send for this device");
-                }
+            String deviceId = data.get(0);
+            if (deviceId.equals(device.getDeviceId())) {
+                logger.warn("Device name will be changed from {} to {}", device.getDeviceName(), data.get(1));
+                device.setDeviceName(data.get(1));
+                sendDeviceData(device);
+                deviceService.updateDevice(device);
             } else {
-                throw new BadDeviceDataException("Device data is not present");
+                logger.warn("MQTT message is not send for this device");
             }
         } else {
             if (nextCain != null) {
